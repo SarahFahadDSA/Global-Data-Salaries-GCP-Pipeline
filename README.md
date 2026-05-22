@@ -36,15 +36,16 @@ The project utilizes a comprehensive global dataset containing over **93,000 rec
 
 ### 1. Data Ingestion (Google Cloud Storage)
 - **Data Landing Zone:** The raw global dataset (`DataScience_salaries_2025.csv`) was securely uploaded and stored in **Google Cloud Storage (GCS)** buckets (`salary-data-raw-tuwaiq-bootcamp`), serving as the initial immutable landing layer.
-![Dataflow Pipeline](Google_Storage_Bucket.png)
+![Google Cloud Storage](Google_Storage_Bucket.png)
 
 ### 2. Data Exploration & Staging (Google BigQuery)
 Before setting up automated orchestration, the raw data was loaded directly into **Google BigQuery** (`salary_data_set.global_salaries`) to establish a staging environment.
+![Google BigQuery](BigQuery.png)
 - **Data Profiling & Inspection:** BigQuery was utilized to visually inspect value distributions, assess structural variations, and theoretically analyze what specific data cleaning and mapping logic the dataset required (without generating visual dashboard charts at this stage).
 - **The Core Strategy (Automation vs. Manual Tasks):** While BigQuery possesses massive processing power to perform manual SQL alterations, the main goal of this project was to achieve **complete, production-ready pipeline automation**. Therefore, the data transformation rules were decoupled from manual queries and written entirely into an automated execution block.
 
 ### 3. Automated ETL Pipeline (Google Cloud Dataflow)
-To bridge the staging and final production layers, a resilient and fully automated ETL pipeline was built using the **Apache Beam SDK** and executed on **Google Cloud Dataflow** (`DataflowRunner`) using the `me-central1` Doha region infrastructure.
+To bridge the staging and final production layers, a resilient and fully automated ETL pipeline was built using the **Apache Beam** and executed on **Google Cloud Dataflow** (`DataflowRunner`).
 
 The automated pipeline performs the following dynamic data engineering steps (`SalaryDataTransform`):
 * **Read Operation:** Programmatically streams raw records from the initial BigQuery staging table (`global_salaries`).
@@ -56,4 +57,4 @@ The automated pipeline performs the following dynamic data engineering steps (`S
 * **Write Operation:** Leverages BigQuery's auto-detect schema functionality to automatically overwrite and load clean, completely transformed records into the production-ready target layer (`global_salaries_cleaned`).
 
 #### 🛠️ Dataflow Execution Graph:
-![Dataflow Pipeline](dataflow_pipeline.png)
+![Dataflow Pipeline](Pipeline.png)
