@@ -35,8 +35,8 @@ The project utilizes a comprehensive global dataset containing over **93,000 rec
 ## 🏗️ Technical Architecture & Outlines
 
 ### 1. Data Ingestion (Google Cloud Storage)
-- **Data Landing Zone:** The raw global dataset (`Latest_Data_Science_Job_Salaries_2024.csv`) was securely uploaded and stored in **Google Cloud Storage (GCS)** buckets (`gs://salary_data_qatar_bucket`), serving as the initial immutable landing layer.
-![Dataflow Pipeline](dataflow_pipeline.png)
+- **Data Landing Zone:** The raw global dataset (`DataScience_salaries_2025.csv`) was securely uploaded and stored in **Google Cloud Storage (GCS)** buckets (`salary-data-raw-tuwaiq-bootcamp`), serving as the initial immutable landing layer.
+![Dataflow Pipeline](Google_Storage_Bucket.png)
 
 ### 2. Data Exploration & Staging (Google BigQuery)
 Before setting up automated orchestration, the raw data was loaded directly into **Google BigQuery** (`salary_data_set.global_salaries`) to establish a staging environment.
