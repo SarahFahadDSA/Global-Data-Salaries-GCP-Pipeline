@@ -49,6 +49,9 @@ To achieve complete pipeline automation, a production-grade ETL ecosystem was en
 The complete codebase for this pipeline can be reviewed here:
 👉 [View Apache Beam ETL Pipeline Script](pipeline_process.py)
 
+#### 🛠️ Dataflow Execution Graph:
+![Dataflow Pipeline](Pipeline.png)
+
 ### 🔄 Execution Flow & Transformations (`SalaryDataTransform`)
 Once triggered, the pipeline processes the data step-by-step through an isolated and fault-tolerant execution graph:
 
@@ -72,8 +75,3 @@ Before applying any transformations, the pipeline creates an isolated copy of ea
 #### Step D: Warehouse Loading (`Write To BigQuery`)
 * Leverages BigQuery's auto-detect schema functionality (`SCHEMA_AUTODETECT`) to automatically infer table schemas, overwriting and loading the clean, completely transformed rows into the target layer (`global_salaries_cleaned`) using `WRITE_TRUNCATE`.
 
-
-
-
-#### 🛠️ Dataflow Execution Graph:
-![Dataflow Pipeline](Pipeline.png)
