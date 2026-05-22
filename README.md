@@ -74,8 +74,6 @@ Before applying any transformations, the pipeline creates an isolated copy of ea
 
 
 
-#### 🛠️ Dataflow Execution Graph:
-![Dataflow Pipeline](dataflow_pipeline.png)
 
 #### 🛠️ Dataflow Execution Graph:
 ![Dataflow Pipeline](Pipeline.png)
