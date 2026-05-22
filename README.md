@@ -30,7 +30,6 @@ The project utilizes a comprehensive global dataset containing over **93,000 rec
 | `company_size` | The organizational size based on employee count (Small, Medium, Large). |
 
 ---
----
 
 ## 🏗️ Technical Architecture & Outlines
 
@@ -45,16 +44,38 @@ Before setting up automated orchestration, the raw data was loaded directly into
 - **The Core Strategy (Automation vs. Manual Tasks):** While BigQuery possesses massive processing power to perform manual SQL alterations, the main goal of this project was to achieve **complete, production-ready pipeline automation**. Therefore, the data transformation rules were decoupled from manual queries and written entirely into an automated execution block.
 
 ### 3. Automated ETL Pipeline (Google Cloud Dataflow)
-To bridge the staging and final production layers, a resilient and fully automated ETL pipeline was built using the **Apache Beam** and executed on **Google Cloud Dataflow** (`DataflowRunner`).
+To achieve complete pipeline automation, a production-grade ETL ecosystem was engineered using the **Apache Beam ** and executed via **Google Cloud Dataflow** (`DataflowRunner`) 
 
-The automated pipeline performs the following dynamic data engineering steps (`SalaryDataTransform`):
-* **Read Operation:** Programmatically streams raw records from the initial BigQuery staging table (`global_salaries`).
-* **Currency Conversion & Cleanup:** Automatically converts international standardized figures from USD into **Saudi Riyals (SAR)** (`salary_in_usd * 3.75`) to drive localization for the Saudi market context, while dynamically popping out legacy columns (`salary`, `salary_currency`) to save warehouse compute resources.
-* **Feature Standardization Maps:** Maps complex or shorthand alpha-codes into descriptive, user-friendly professional labels for features like `company_size` (S/M/L to Small/Medium/Large), `experience_level` (EN/MI/SE/EX), and `employment_type`.
-* **Work Environment Translation:** Evaluates numeric remote workspace ratios to dynamically classify environments into structured groups (`On-site`, `Hybrid`, `Remote`).
-* **Advanced Text Classification (Regex Matching):** Implements Regular Expressions (`re.search`) to intelligently scan and group dozens of complex, raw operational titles into 7 clean categorical core tech domains (e.g., *AI & Machine Learning*, *Data Science*, *Data Engineering*, *Data Management & Governance*).
-* **Geographic Regional Mapping:** Groups disparate international country codes (`company_location`) into consolidated global economic regions (such as *United States*, *Europe*, and an explicit grouping for the *Middle East & Africa* containing `SA`).
-* **Write Operation:** Leverages BigQuery's auto-detect schema functionality to automatically overwrite and load clean, completely transformed records into the production-ready target layer (`global_salaries_cleaned`).
+The complete codebase for this pipeline can be reviewed here:
+👉 [View Apache Beam ETL Pipeline Script](pipeline_process.py)
+
+### 🔄 Execution Flow & Transformations (`SalaryDataTransform`)
+Once triggered, the pipeline processes the data step-by-step through an isolated and fault-tolerant execution graph:
+
+#### Step A: Data Ingestion (`Read From BigQuery`)
+* Programmatically streams raw operational records directly from the initial Google BigQuery staging table.
+
+#### Step B: Core Processing Logic (`beam.ParDo()`)
+Before applying any transformations, the pipeline creates an isolated copy of each streaming record (`element.copy()`) to maintain thread safety and prevent raw data corruption. It then sequentially executes the following business logic:
+
+1. **Currency Conversion & Column Cleanup:** Converts international standardized figures from USD into **Saudi Riyals (SAR)** (`salary_in_usd * 3.75`) to drive localization for the Saudi market context. It then dynamically drops legacy, unneeded source columns (`salary`, `salary_currency`) using Python's `pop()` method to minimize storage overhead.
+2. **Company Size Mapping:** Maps complex shorthand alpha-codes into descriptive, user-friendly professional labels (Translates `S`, `M`, `L` into `Small`, `Medium`, `Large`).
+3. **Experience Level Mapping:** Standardizes operational status attributes (`EN`, `MI`, `SE`, `EX` into `Entry-level`, `Mid-level`, `Senior-level`, `Executive-level`).
+4. **Employment Type Mapping:** Converts contractual shorthand variations (`FT`, `PT`, `CT`, `FL`) into explicit designations (`Full-time`, `Part-time`, `Contract`, `Freelance`).
+5. **Remote Work Ratio Mapping:** Evaluates numeric workspace ratios (`remote_ratio`) to dynamically categorize employees into structural work environments (`On-site` for 0, `Hybrid` for 50, and `Remote` for 100).
+6. **Advanced Text Classification (Regex Matching):** Implements Regular Expressions (`re.search`) to intelligently scan raw, complex job titles and group them cleanly into 7 core technological domains (e.g., *AI & Machine Learning*, *Data Science*, *Data Engineering*, *Data Analysis & BI*, *Data Management & Governance*, *Software & Cloud Engineering*, and *Product & Business*).
+7. **Geographic Regional Mapping:** Groups disparate international country codes (`company_location`) into consolidated global economic regions, explicitly creating a dedicated grouping for the **Middle East & Africa** region (which includes `SA` for Saudi Arabia).
+
+#### Step C: Fault-Tolerant Exception Handling
+* The entire analytical block is wrapped inside a robust `try-except` structure. If a corrupted row or data anomaly is encountered, it captures and logs the error specific to that row (`Error processing row: {e}`) while keeping the entire enterprise pipeline running smoothly without crashes.
+
+#### Step D: Warehouse Loading (`Write To BigQuery`)
+* Leverages BigQuery's auto-detect schema functionality (`SCHEMA_AUTODETECT`) to automatically infer table schemas, overwriting and loading the clean, completely transformed rows into the target layer (`global_salaries_cleaned`) using `WRITE_TRUNCATE`.
+
+
+
+#### 🛠️ Dataflow Execution Graph:
+![Dataflow Pipeline](dataflow_pipeline.png)
 
 #### 🛠️ Dataflow Execution Graph:
 ![Dataflow Pipeline](Pipeline.png)
