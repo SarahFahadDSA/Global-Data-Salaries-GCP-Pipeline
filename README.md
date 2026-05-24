@@ -112,6 +112,7 @@ The dashboard provides a comprehensive, filterable view of global data salary be
 
 A bubble map where size corresponds to salary magnitude. Hover over any region to view its exact average monthly salary in SAR.
 
+
 <img src="Avg_Monthly_Salary_by_Region_US.png" alt="Avg. Monthly Salary by Region — US" width="100%">
 <img src="Avg_Monthly_Salary_by_Region_MiddleEast.png" alt="Avg. Monthly Salary by Region — Middle East" width="100%">
 
