@@ -75,3 +75,86 @@ Before applying any transformations, the pipeline creates an isolated copy of ea
 #### Step D: Warehouse Loading (`Write To BigQuery`)
 * Leverages BigQuery's auto-detect schema functionality (`SCHEMA_AUTODETECT`) to automatically infer table schemas, overwriting and loading the clean, completely transformed rows into the target layer (`global_salaries_cleaned`) using `WRITE_TRUNCATE`.
 
+---
+
+### 4. 📊 Interactive Dashboard (Looker Studio)
+
+An interactive business intelligence dashboard was built using **Google Looker Studio**, connecting directly to the cleaned BigQuery table (`global_salaries_cleaned`) as its live data source.
+
+> *Note: The live dashboard has been taken offline as the underlying BigQuery dataset was decommissioned after project completion. Screenshots below reflect the dashboard's full functionality.*
+
+
+#### 📋 Dashboard Overview
+The dashboard provides a comprehensive, filterable view of global data salary benchmarks presented in **Saudi Riyals (SAR)**. It features six dynamic filter controls — `work_year`, `job_category`, `job_title`, `experience_level`, `employment_type`, and `company_size` — allowing users to slice the data from any angle.
+
+**Key KPI cards (unfiltered — all 93,597 records):**
+| Metric | Value |
+| :--- | :--- |
+| Average Annual Salary (SAR) | 590,804 |
+| Average Monthly Salary (SAR) | 49,234 |
+| Total Records | 93,597 |
+
+![Global Data Salary Dashboard](Dashboard.png)
+
+---
+
+#### 📈 Charts & Insights
+
+**1. Global Average Monthly Salary (2020 – 2025)**
+
+![Global Average Monthly Salary (2020–2025)](Global_Average_Monthly_Salary__2020-2025_.png)
+
+> 💡 **Insight:** The data profession experienced explosive salary growth between 2021 and 2023 — a ~60% increase in just two years — likely driven by the post-pandemic surge in digital transformation and the rapid rise of AI adoption across industries. The plateau observed from 2023 to 2025 suggests the market is maturing, with salaries stabilizing around the 49K–50K SAR range as supply of data talent begins to catch up with demand.
+
+---
+
+**2. Avg. Monthly Salary by Global Region (Interactive Map)**
+
+A bubble map where size corresponds to salary magnitude. Hover over any region to view its exact average monthly salary in SAR.
+
+![Avg. Monthly Salary by Region — US](Avg_Monthly_Salary_by_Region_US.png)
+![Avg. Monthly Salary by Region — Middle East](Avg_Monthly_Salary_by_Region_MiddleEast.png)
+
+| Region | Avg. Monthly Salary (SAR) |
+| :--- | :--- |
+| North America (United States) | 51,078.79 |
+| Middle East & Africa | 40,361.69 |
+
+> 💡 **Insight:** North America commands the highest salaries globally, sitting ~4% above the overall average — reinforcing the US as the benchmark market for data compensation. The Middle East & Africa region, at SAR 40,361, trails the global average by ~18%, revealing a significant compensation gap despite the region's growing investment in data and AI infrastructure (particularly relevant in the Saudi context given Vision 2030 initiatives). This gap represents both a challenge for local talent retention and an opportunity for organizations to adjust compensation strategies.
+
+---
+
+**3. Avg. Monthly Salary by Job Category**
+
+![Avg. Monthly Salary by Job Category](Avg_Monthly_Salary_by_Job_Category.png)
+
+| Rank | Job Category | Avg. Monthly Salary (SAR) |
+| :--- | :--- | :--- |
+| 1 | AI & Machine Learning | 58,400 |
+| 2 | Software & Cloud Engineering | 56,600 |
+| 3 | Product & Business | 53,200 |
+| 4 | Data Science | 51,500 |
+| 5 | Other Specializations | 50,000 |
+| 6 | Data Engineering | 47,800 |
+| 7 | Data Management & Governance | 37,600 |
+| 8 | Data Analysis & BI | 34,700 |
+
+> 💡 **Insight:** AI & Machine Learning roles command a 19% premium over the dataset-wide average, reflecting the current scarcity of specialized AI talent and the high business value these roles deliver. Notably, Data Analysis & BI — often considered an entry point into the data field — earns nearly 41% less than AI & ML roles, highlighting a steep compensation ladder within the data profession. Data Engineering sits mid-table, suggesting it is a well-established and commoditized discipline, while the relatively low ranking of Data Management & Governance may indicate that organizations still undervalue data quality and stewardship functions despite their strategic importance.
+
+---
+
+#### 🔍 Dashboard Filtering Example
+
+The following example demonstrates the dashboard's dynamic filtering capability. When filtering by **`job_category: Data Engineering`** and **`job_title: Data Engineer`**, the entire dashboard recalculates to reflect that specific segment:
+
+| Metric | Filtered View (Data Engineer) |
+| :--- | :--- |
+| Average Annual Salary (SAR) | 556,177 |
+| Average Monthly Salary (SAR) | 46,348 |
+| Total Records | 11,323 |
+
+> 💡 **Insight:** Data Engineers represent a substantial segment of the dataset (11,323 out of 93,597 records — ~12%), confirming it as one of the most prevalent roles in the data field. Their average monthly salary of SAR 46,348 sits ~6% below the global average, suggesting that while demand is high, the growing availability of Data Engineering talent is tempering compensation growth relative to more specialized categories like AI & ML.
+
+![Dashboard — Filtered: Data Engineer](Dashboard_DE.png)
+
+
