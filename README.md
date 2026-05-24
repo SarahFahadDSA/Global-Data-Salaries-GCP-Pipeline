@@ -102,7 +102,7 @@ The dashboard provides a comprehensive, filterable view of global data salary be
 
 **1. Global Average Monthly Salary (2020 – 2025)**
 
-![Global Average Monthly Salary (2020-2025) Dashboard](Global Average Monthly Salary (2020-2025).png)
+![...](Global_Average_Monthly_Salary_2020-2025.png)
 
 > 💡 **Insight:** The data profession experienced explosive salary growth between 2021 and 2023 — a ~60% increase in just two years — likely driven by the post-pandemic surge in digital transformation and the rapid rise of AI adoption across industries. The plateau observed from 2023 to 2025 suggests the market is maturing, with salaries stabilizing around the 49K–50K SAR range as supply of data talent begins to catch up with demand.
 
