@@ -158,3 +158,75 @@ The following example demonstrates the dashboard's dynamic filtering capability.
 ![Dashboard — Filtered: Data Engineer](Dashboard_DE.png)
 
 
+---
+### 5. 🤖 Machine Learning Model (BigQuery ML)
+
+Following the completion of the ETL pipeline and data cleaning stages, a predictive model was developed using **BigQuery ML** to estimate annual salaries in Saudi Riyals (SAR) based on job characteristics and geographic location.
+
+The complete SQL scripts for this stage are available here:
+👉 [Create Model](create_model.sql) | [Evaluate Model](evaluate_model.sql) | [Predict Salary](predict_salary.sql)
+
+---
+
+#### 🏗️ Model Creation (`create_model.sql`)
+
+The model was trained using the **Boosted Tree Regressor** algorithm — one of the most effective regression algorithms for structured tabular data — via BigQuery ML's `ML.CREATE_MODEL` function.
+
+**Model Details:**
+| Parameter | Value |
+| :--- | :--- |
+| Model Type | Boosted Tree Regressor |
+| Maximum Tree Depth | 6 |
+| Max Iterations | 50 |
+| Subsample | 1 |
+| Model Location | US |
+
+**Input Features used for training:**
+- `job_category` — The functional domain of the role
+- `experience_level` — The employee's seniority level
+- `company_location` — The country where the company is based
+
+**Target Variable:** `salary_in_sar` (Annual salary in Saudi Riyals)
+
+![Model Creation in BigQuery ML](Create_model.png)
+
+---
+
+#### 📊 Model Evaluation (`evaluate_model.sql`)
+
+Model performance was assessed using BigQuery ML's `ML.EVALUATE` function on the held-out test data, producing the following metrics:
+
+![Model Evaluation Results](eval_model.png)
+
+| Metric | Value |
+| :--- | :--- |
+| Mean Absolute Error (MAE) | 173,007.54 |
+| Mean Squared Error (MSE) | 55,179,480,437.16 |
+| Mean Squared Log Error (MSLE) | 0.153 |
+| Median Absolute Error | 138,485.38 |
+| R² Score | 0.244 |
+| Explained Variance | 0.249 |
+
+> 💡 **Insight:** An R² of 0.244 indicates the model explains approximately 24% of salary variance — a reasonable baseline given that compensation is inherently influenced by factors absent from this dataset, such as individual skill sets, negotiation outcomes, and local market conditions. The model serves as a solid starting point for directional salary estimation, with clear room for improvement by incorporating richer feature sets in future iterations.
+
+---
+
+#### 🔮 Salary Prediction (`predict_salary.sql`)
+
+The model was tested on a real-world scenario using `ML.PREDICT`, with input features manually defined to simulate an actual hiring case:
+
+**Input Features:**
+| Feature | Value |
+| :--- | :--- |
+| Job Category | Data Engineering |
+| Experience Level | Entry-level |
+| Company Location | SA (Saudi Arabia) |
+
+**Prediction Output:**
+| Output | Value |
+| :--- | :--- |
+| Predicted Annual Salary (SAR) | **252,780** |
+
+![Prediction Query Result](Input_Query.png)
+
+> 💡 **Insight:** The model predicts an annual salary of **SAR 252,780** (~SAR 21,065/month) for an entry-level Data Engineer based in Saudi Arabia. This figure falls within a reasonable range for this seniority level in the Saudi market, suggesting the model produces sensible estimates despite the limited number of input features available.
