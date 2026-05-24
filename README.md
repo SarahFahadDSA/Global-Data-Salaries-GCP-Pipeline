@@ -230,3 +230,42 @@ The model was tested on a real-world scenario using `ML.PREDICT`, with input fea
 ![Prediction Query Result](Input_Query.png)
 
 > 💡 **Insight:** The model predicts an annual salary of **SAR 252,780** (~SAR 21,065/month) for an entry-level Data Engineer based in Saudi Arabia. This figure falls within a reasonable range for this seniority level in the Saudi market, suggesting the model produces sensible estimates despite the limited number of input features available.
+---
+---
+## ⚠️ Challenges & Limitations
+
+### 1. Unstructured & Inconsistent Job Titles
+
+The dataset contained a large number of raw, non-standardized job titles with significant overlap and ambiguity (e.g., "ML Engineer", "Machine Learning Specialist", "AI Developer", and "Applied Scientist" all referring to similar roles). This made direct analysis by job title unreliable and difficult to aggregate meaningfully.
+
+**How it was addressed:**
+Rather than cleaning titles manually — which would not scale with the dataset size — an automated classification layer was engineered directly inside the Apache Beam pipeline, leveraging **Regular Expressions (Regex)** via `re.search()` to scan each raw job title and automatically assign it to one of 8 standardized categories:
+
+| # | Job Category |
+| :--- | :--- |
+| 1 | AI & Machine Learning |
+| 2 | Data Science |
+| 3 | Data Engineering |
+| 4 | Data Analysis & BI |
+| 5 | Data Management & Governance |
+| 6 | Software & Cloud Engineering |
+| 7 | Product & Business |
+| 8 | Other Specialized Tech |
+
+This approach enabled consistent, scalable grouping without manual intervention, and allowed both the dashboard and the ML model to operate on clean, comparable categories.
+
+---
+
+### 2. Limited Feature Set for ML Prediction
+
+The dataset's available features were primarily categorical and high-level (`job_category`, `experience_level`, `company_location`), which placed a natural ceiling on the predictive power of the ML model. Salary in practice is shaped by many granular factors not captured in this dataset, such as:
+
+- Individual technical skills and professional certifications
+- Specific industry or business domain
+- Company revenue and funding stage
+- Negotiation outcomes
+- Cost of living adjustments at the city level
+
+**Impact:** The resulting R² score of 0.244 reflects this limitation — the model explains ~24% of salary variance, making it suitable for directional benchmarking rather than precise individual salary prediction.
+
+**Future improvement:** Enriching the dataset with additional features such as specific tech stack, years of experience as a continuous variable, and company industry would likely yield a significantly stronger model.
