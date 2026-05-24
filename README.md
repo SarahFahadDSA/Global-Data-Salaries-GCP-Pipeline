@@ -31,7 +31,7 @@ The project utilizes a comprehensive global dataset containing over **93,000 rec
 
 ---
 
-## 🏗️ Technical Architecture & Outlines
+## 🏗️ Technical Architecture 
 
 ### 1. Data Ingestion (Google Cloud Storage)
 - **Data Landing Zone:** The raw global dataset (`DataScience_salaries_2025.csv`) was securely uploaded and stored in **Google Cloud Storage (GCS)** buckets (`salary-data-raw-tuwaiq-bootcamp`), serving as the initial immutable landing layer.
