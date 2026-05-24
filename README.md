@@ -269,3 +269,22 @@ The dataset's available features were primarily categorical and high-level (`job
 **Impact:** The resulting R² score of 0.244 reflects this limitation — the model explains ~24% of salary variance, making it suitable for directional benchmarking rather than precise individual salary prediction.
 
 **Future improvement:** Enriching the dataset with additional features such as specific tech stack, years of experience as a continuous variable, and company industry would likely yield a significantly stronger model.
+
+
+---
+---
+
+## ✅ Conclusion
+
+This project successfully delivered an end-to-end, production-grade data engineering ecosystem — from raw data ingestion to actionable salary insights — built entirely on Google Cloud infrastructure.
+
+Across its five stages, the project achieved the following:
+
+- **Ingested** over 93,000 global salary records into Google Cloud Storage as an immutable raw data layer
+- **Staged and profiled** the data in Google BigQuery to identify the required cleaning and transformation logic
+- **Automated** the full ETL process using Apache Beam on Google Cloud Dataflow, applying currency conversion, field standardization, Regex-based job classification, and geographic mapping — all within a single fault-tolerant pipeline
+- **Visualized** the cleaned data through an interactive Looker Studio dashboard, surfacing salary benchmarks across job categories, experience levels, and global regions in Saudi Riyals (SAR)
+- **Built and evaluated** a Boosted Tree Regressor model using BigQuery ML capable of generating directional salary estimates based on role, seniority, and location
+
+The core problem this project set out to solve — the disconnect between employer salary offerings and actual market benchmarks — was addressed through a scalable, automated pipeline that transforms raw global data into localized, data-driven compensation insights relevant to the Saudi market.
+
