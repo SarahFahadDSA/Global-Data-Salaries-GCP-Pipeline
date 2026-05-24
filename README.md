@@ -126,7 +126,7 @@ A bubble map where size corresponds to salary magnitude. Hover over any region t
 
 **3. Avg. Monthly Salary by Job Category**
 
-![...](Avg.Monthly Salary by Job Category.png)
+<img src="Avg.Monthly Salary by Job Category.png" alt="Job Category Distribution" width="100%">
 
 | Rank | Job Category | Avg. Monthly Salary (SAR) |
 | :--- | :--- | :--- |
